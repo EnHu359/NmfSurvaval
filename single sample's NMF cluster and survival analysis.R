@@ -1,12 +1,12 @@
 library("NMF")
-#
-#setwd("G:\\mutiData\\protein\\1_raw_data\\补缺失值后")
-#read.csv("T77_grr_log2_complete40.csv")
-#source("C:/Users/HuEn/Desktop/myR/mutil_sur.R")
 source("./mutil_sur.R")
-datasname<-"T77_grr_log2_complete80.csv"
+#use Rscript to get outer args
+#usage Rscript single samples's NMF cluster and survival.R filename
+args <- commandArgs(T)
+datasname<-args[1]
+
 filename=strsplit(datasname,"\\.")[[1]][1]
-#the function used to create a directory
+#This function is used to create a directory
 create.in<-function(dir.name,change.dir=T){
   if(dir.exists(dir.name)){
     print(paste(dir.name,"exists remove it"))
@@ -22,7 +22,7 @@ create.in<-function(dir.name,change.dir=T){
     setwd(paste0("./",dir.name))
   }
 }
-#read in expdata
+#read in expressiondata
 datas<-read.csv(file = datasname,row.names = 1)
 #read in clinical data
 clincal<-read.csv("clinical_time.csv")
@@ -54,7 +54,7 @@ methods=c("nsNMF","offset",
          "Frobenius")
 ks=c(2,3,4,5)
 for(percent in seq(0.3,1,0.05)){
-  mad_data_mad<-datas[row.names(mad_data)[order(mad_data$mads,decreasing = T)[1:(dim(datas)[1]*percent)]],]
+  mad_data_mad <- datas[row.names(mad_data)[order(mad_data$mads,decreasing = T)[1:(dim(datas)[1]*percent)]],]
   #将mads文件保存到mads_file里面
   write.csv(mad_data_mad,paste0("./","mads_file/",percent,".csv"))
   for(method in methods){

@@ -5,7 +5,7 @@ library(survival)
 #save files in current directiory
 mutil_sur<-function(group.data,clinical.data,figure_name,figur_any=F){
   rootpath=getwd()
-  #读取分组信息
+  #get group data
   groups<<-group.data
   groups$samples<<-gsub("^X|T$|N$","",groups$samples)
   #print(groups)
